@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>untitled</title>
+    <meta name="generator" content="TextMate http://macromates.com/">
+    <meta name="author" content="Jason McLeod">
+    
+    <style>
+        #viewport-canvas {
+            background:#eee;
+        }
+        #viewport .overlay {
+            position:absolute;
+            top:0px;
+            left:0px;
+        }
+    </style>
+    
+    <script src="../resources/libs/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../resources/libs/socketio/socket.io.js" type="text/javascript" charset="utf-8"></script>
+    
+    <script>
+        var game = {
+            me:undefined,
+            settings:{
+                sprite:{
+                    width:16,
+                    height:16,
+                },
+                camera:{
+                    width:25,
+                    height:21
+                },
+                renderer:"canvas"
+            },
+            camera:{
+                x:0,
+                y:0
+            },
+            map:{},
+            players:{},
+            npcs:{},
+            items:{},
+            dom:{
+                ctx:undefined,
+                canvas:undefined
+            },
+            environment:{
+                rain:false,
+                brightness:1
+            },
+            init:function() {
+                // store the context
+                game.dom.ctx = document.getElementById("viewport-canvas").getContext("2d");
+                
+                // store the canvas element
+                game.dom.canvas = $("#viewport-canvas");
+                
+                // store the players,npcs, and items elements
+                game.dom.players = $("#viewport-players");
+                game.dom.npcs = $("#viewport-npcs");
+                game.dom.items = $("#viewport-items");
+                
+                // set the width of all dom elements 
+                game.dom.canvas.attr("width",game.settings.sprite.width * game.settings.camera.width);
+                game.dom.canvas.attr("height",game.settings.sprite.width * game.settings.camera.height);
+                game.dom.players.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
+                game.dom.npcs.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
+                game.dom.items.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
+                
+                console.log(game);
+            }
+        }
+        
+        var assets = {
+            loaded:0,
+            required:["map"],
+            register:function(asset) {
+                assets.loaded++
+            }
+        }
+        
+        $(function() {
+            game.init();
+        })
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div id="viewport">
+            <canvas id="viewport-canvas"></canvas>
+            <div id="viewport-fixtures" class="overlay"></div>
+            <div id="viewport-players" class="overlay"></div>
+            <div id="viewport-npcs" class="overlay"></div>
+            <div id="viewport-items" class="overlay"></div>
+        </div>
+        <div id="inventory"></div>
+        <div id="chat">
+            <div id="chat-history"></div>
+            <div id="chat-fields">
+                <input type="text" id="chat-field">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

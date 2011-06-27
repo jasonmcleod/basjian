@@ -1,0 +1,18 @@
+!!! 5
+html
+    head
+        title= title || 'Title not set'
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        
+    body
+        h1 ...
+        form(action="/logon",method="post")
+            label 
+            | User name
+            input#username(type="text",name="username")
+            label
+            br
+            | Password
+            input#username(type="password",name="password")
+            br
+            input(type="submit",value="Log in")

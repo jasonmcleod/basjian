@@ -1,0 +1,26 @@
+!!! 5
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src='/resources/libs/jquery.js')
+        script(src='/resources/libs/socket.IO/dist/socket.io.js')
+        script(src='/javascripts/game.js')
+        script(src='/javascripts/packets.js')
+        
+    body
+        script
+            game.authtoken = "!{authtoken}";
+        #container
+            #viewport
+                canvas#viewport-canvas
+                #viewport-fixtures.overlay
+                #viewport-players.overlay
+                #viewport-npcs.overlay
+                #viewport-items.overlay
+                
+            #inventory
+                #chat
+                #chat-history
+                #chat-fields
+                    input#chat-field(type="text")
