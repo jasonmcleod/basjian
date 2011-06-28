@@ -1,0 +1,15 @@
+Basjian is a multiplayer game written in node.js. The client is... you guessed it, all javascript.
+
+I wrote Basjian because all the retro RPG's I've played over the years have either gone away or
+just turned into something other than they used to be.
+
+I did a 3 month sprint when I wrote Basjian.. trouble is, that's also when I learned node.js, so
+the code is a little unmanageable.  I also let the excitement get the best of me so several pieces
+of the client are a little rushed.  On top of that, I got busy and put the project away for a while.
+
+So now, I'm rewriting Basjian, and making it open source.  Maybe I'll find another developer who
+is looking for a retro RPG to feed their nostalgic craving. But if not, I still enjoy playing what
+Basjian is so far.  You can get a taste of whats to come right now at http://basjian.com.
+
+Once the code here catches up to what's live now, I'll move it into production and hopefully keep
+on truckin!
