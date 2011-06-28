@@ -19,9 +19,6 @@ var game = {
         y:0
     },
     map:{},
-    players:{},
-    npcs:{},
-    items:{},
     dom:{
         ctx:undefined,
         canvas:undefined
@@ -31,10 +28,14 @@ var game = {
         brightness:1
     },    
     assets:{
-        loaded:0,
-        required:['map'],
-        register:function(asset) {
-            assets.loaded++
+        register:function(data) {
+            game.players=           data.players;
+            game.npcs=              data.npcs;
+            game.world_npcs=        data.world_npcs;
+            game.items=             data.items;
+            game.world_items=       data.world_items;
+            game.fixtures=          data.fixtures;
+            game.world_fixtures=    data.world_fixtures;
         }
     },
     socket:undefined,
@@ -63,6 +64,8 @@ var game = {
             console.log("lost it");
         });        
         game.handle_packets();
+        
+        game.ui.bind();
     }
 }
 
@@ -70,9 +73,5 @@ var game = {
 $(function() {
     
     game.init();
-    
-    // test crap    
-    $("canvas").live("click",function() {
-      game.socket.emit("dom.click",2)
-    })
+
 })

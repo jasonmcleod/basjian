@@ -1,9 +1,20 @@
 var express = require('express');
 var io = require('socket.io');
 var app = module.exports = express.createServer();
-var server = require('./server/server').server;
-var player = require('./server/player').player;
-var packets = require("./server/packets").packets;
+global.config = require('./server/config').config;
+global.server = require('./server/server').server;
+global.player = require('./server/player').player;
+global.packets = require('./server/packets').packets;
+global.assets = require('./server/assets').assets;
+global.npcs = require('./server/npcs').npcs;
+global.sha1 = require('./server/lib/sha1/sha1');
+global.mysqlClient = require('mysql').Client;
+global.mysql = new mysqlClient(); 
+    mysql.host = config.db.host; 
+    mysql.user = config.db.user; 
+    mysql.password = config.db.password; 
+    mysql.connect(); 
+    mysql.query('USE ' + config.db.database);
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
@@ -60,6 +71,10 @@ app.get('/client',function(req,res) {
     })
 })
 
+
+/////////////////////////////////////////////////////////////
+console.log('loading assets');
+assets.fetch();
 app.listen(3000);
 var sio = io.listen(app);
 sio.sockets.on('connection', function (client) {
@@ -68,5 +83,3 @@ sio.sockets.on('connection', function (client) {
        //console.log('dropped')
     });
 });
-
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

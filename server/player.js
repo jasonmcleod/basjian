@@ -1,7 +1,8 @@
-var config = require('./config').config;
-var sha1 = require('./lib/sha1/sha1')
-var mysqlClient = require('mysql').Client; mysql = new mysqlClient(); mysql.host = config.db.host; mysql.user = config.db.user; mysql.password = config.db.password; mysql.connect(); mysql.query('USE ' + config.db.database);
-    
+//var server = require('./server').server;
+//var config = require('./config').config;
+//var sha1 = require('./lib/sha1/sha1')
+//var mysqlClient = require('mysql').Client; mysql = new mysqlClient(); mysql.host = config.db.host; mysql.user = config.db.user; mysql.password = config.db.password; mysql.connect(); mysql.query('USE ' + config.db.database);
+
 var player = {
     authenticate:function(username,password,success,failure) {
         mysql.query('USE ' + config.db.database + ';');
