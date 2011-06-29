@@ -1,6 +1,8 @@
 var game = {
     authtoken:undefined,
     me:undefined,
+    socket:undefined,
+    map:undefined,
     settings:{
         host:'localhost',
         port:8001,
@@ -18,7 +20,6 @@ var game = {
         x:0,
         y:0
     },
-    map:{},
     dom:{
         ctx:undefined,
         canvas:undefined
@@ -27,6 +28,11 @@ var game = {
         rain:false,
         brightness:1
     },    
+    begin:function() {
+        game.ready = true;
+        game.ui.bind();
+        setInterval(game.mainloop,50)
+    },
     assets:{
         register:function(data) {
             game.players=           data.players;
@@ -36,9 +42,19 @@ var game = {
             game.world_items=       data.world_items;
             game.fixtures=          data.fixtures;
             game.world_fixtures=    data.world_fixtures;
+            game.maptiles=          data.maptiles;
+            game.assets.ready();
+        },
+        registerMap:function(map) {
+            game.map = map;
+            game.assets.ready();
+        },
+        ready:function() {
+            if(typeof game.maptiles != "undefined" && typeof game.map != "undefined") {
+                game.begin();
+            }
         }
     },
-    socket:undefined,
     init:function() {
         // store the context
         game.dom.ctx = document.getElementById('viewport-canvas').getContext('2d');
@@ -62,16 +78,13 @@ var game = {
         game.socket.emit('register',game.authtoken)
         game.socket.on('disconnect', function () {
             console.log("lost it");
-        });        
-        game.handle_packets();
+        });      
         
-        game.ui.bind();
+        game.handle_packets();   
     }
 }
 
 
 $(function() {
-    
     game.init();
-
 })
