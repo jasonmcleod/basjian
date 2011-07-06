@@ -1,7 +1,3 @@
-//var server = require('./server').server;
-//var config = require('./config').config;
-//var npcs = require('./npcs').npcs;
-
 assets = {
     needed:['maptiles','fixtures','world_fixtures','items','world_items','inventory_items','npcs','world_npcs','bank_items','encounters','world_shops'],
     loaded:[],

@@ -1,11 +1,15 @@
+// vars
 var express = require('express');
 var io = require('socket.io');
 var app = module.exports = express.createServer();
+
+// globals
 global.config = require('./server/config').config;
 global.server = require('./server/server').server;
 global.player = require('./server/player').player;
 global.packets = require('./server/packets').packets;
 global.assets = require('./server/assets').assets;
+global.levels = require('./server/levels').levels;
 global.npcs = require('./server/npcs').npcs;
 global.sha1 = require('./server/lib/sha1/sha1');
 global.mysqlClient = require('mysql').Client;
@@ -15,6 +19,9 @@ global.mysql = new mysqlClient();
     mysql.password = config.db.password; 
     mysql.connect(); 
     mysql.query('USE ' + config.db.database);
+
+global.SAVE_INTERVAL = 60000;
+global.connections = {};
 
 app.configure(function(){
   app.set('views', __dirname + '/views');

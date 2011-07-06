@@ -6,19 +6,18 @@ var game = {
     settings:{
         host:'localhost',
         port:8001,
-        sprite:{
-            width:16,
-            height:16,
-        },
-        camera:{
-            width:25,
-            height:21
-        },
-        renderer:'canvas'
+        renderer:'canvas',
+        interval:300
     },
+    sprites:{
+        w:16,
+        h:16,
+    },    
     camera:{
         x:0,
-        y:0
+        y:0,
+        w:25,
+        h:21
     },
     dom:{
         ctx:undefined,
@@ -31,7 +30,10 @@ var game = {
     begin:function() {
         game.ready = true;
         game.ui.bind();
-        setInterval(game.mainloop,50)
+        setInterval(game.mainloop,game.settings.interval)
+    },
+    paths:{
+        maptiles:"assets/tiles/"
     },
     assets:{
         register:function(data) {
@@ -43,7 +45,27 @@ var game = {
             game.fixtures=          data.fixtures;
             game.world_fixtures=    data.world_fixtures;
             game.maptiles=          data.maptiles;
-            game.assets.ready();
+            game.assets.preload();
+        },
+        preload:function() {
+            for(var img in game.maptiles) {
+                game.maptiles[img].img = new Image();
+                game.maptiles[img].img.src = game.paths.maptiles + game.maptiles[img].sprite;
+                game.maptiles[img].img.onload = game.assets.preloadComplete;
+                
+                console.log(game.maptiles[img])
+            }
+            game.assets.prelaodedNeeded++;
+            
+        },
+        preloadDone:0,
+        preloadNeeded:0,
+        preloadComplete:function() {
+            console.log("image loaded: " + this.src)
+            game.assets.preloadedDone++;
+            if(game.assets.preloadDone == game.assets.preloadNeeded) {
+                game.assets.ready();
+            }
         },
         registerMap:function(map) {
             game.map = map;
@@ -68,8 +90,8 @@ var game = {
         game.dom.items = $('#viewport-items');
         
         // set the width of all dom elements 
-        game.dom.canvas.attr('width',game.settings.sprite.width * game.settings.camera.width);
-        game.dom.canvas.attr('height',game.settings.sprite.width * game.settings.camera.height);
+        game.dom.canvas.attr('width',game.sprites.w * game.camera.w);
+        game.dom.canvas.attr('height',game.sprites.h * game.camera.h);
         game.dom.players.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
         game.dom.npcs.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
         game.dom.items.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
