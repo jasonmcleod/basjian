@@ -13,3 +13,29 @@ Basjian is so far.  You can get a taste of whats to come right now at http://bas
 
 Once the code here catches up to what's live now, I'll move it into production and hopefully keep
 on truckin!
+
+
+Server flow:
+
+start server: node app.js
+server loads mapfile into memory, cuts out the client related code
+server connects to mysql and loads all the assets (fixtures, items, portals)
+server spawns any initial npcs (shop keepers, guards, etc.)
+server sets timers to handle npc spawns and weather / night and day effects.
+server waits for clients
+server waits for packets/events
+
+
+Client flow:
+index.jade      player is present with login form
+client.jade     player makes it to client if successful
+game.js         client connects to server
+                server adds the user to the players array
+                server sends assets (fixtures, items, etc..)
+game.js         client preloads assets
+game.js         once preload is done, intervals are set to render graphics and handle input in mainloop.js
+render.js       terrain, fixtures etc.. are all rendered on an interval
+
+the remaining functionality is all event driven
+
+packets.js routes all incoming events to their respective functions

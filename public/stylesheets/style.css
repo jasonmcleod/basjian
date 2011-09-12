@@ -6,7 +6,15 @@ body {
 a {
   color: #00B7FF;
 }
-
+#container {
+    position:relative;
+}
+#viewport {
+    position:absolute;
+    top:0px;
+    left:0px;
+    opacity:1;
+}
 #viewport-canvas {
     background:#eee;
 }
@@ -14,4 +22,12 @@ a {
     position:absolute;
     top:0px;
     left:0px;
+}
+.sprite {
+    position:absolute;
+    width:16px;
+    height:16px;
+}
+.player {
+    background-image:url(../assets/pcs/player.png);
 }

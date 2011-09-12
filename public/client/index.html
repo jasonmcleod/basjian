@@ -5,7 +5,7 @@
     <title>untitled</title>
     <meta name="generator" content="TextMate http://macromates.com/">
     <meta name="author" content="Jason McLeod">
-    
+
     <style>
         #viewport-canvas {
             background:#eee;
@@ -16,10 +16,10 @@
             left:0px;
         }
     </style>
-    
+
     <script src="../resources/libs/jquery.js" type="text/javascript" charset="utf-8"></script>
     <script src="../resources/libs/socketio/socket.io.js" type="text/javascript" charset="utf-8"></script>
-    
+
     <script>
         var game = {
             me:undefined,
@@ -53,34 +53,34 @@
             init:function() {
                 // store the context
                 game.dom.ctx = document.getElementById("viewport-canvas").getContext("2d");
-                
+
                 // store the canvas element
                 game.dom.canvas = $("#viewport-canvas");
-                
+
                 // store the players,npcs, and items elements
                 game.dom.players = $("#viewport-players");
                 game.dom.npcs = $("#viewport-npcs");
                 game.dom.items = $("#viewport-items");
-                
-                // set the width of all dom elements 
+
+                // set the width of all dom elements
                 game.dom.canvas.attr("width",game.settings.sprite.width * game.settings.camera.width);
                 game.dom.canvas.attr("height",game.settings.sprite.width * game.settings.camera.height);
                 game.dom.players.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
                 game.dom.npcs.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
                 game.dom.items.css({width:game.dom.canvas.width,height:game.dom.canvas.height});
-                
+
                 console.log(game);
             }
         }
-        
+
         var assets = {
             loaded:0,
-            required:["map"],
+            required:["map","fixtures"],
             register:function(asset) {
                 assets.loaded++
             }
         }
-        
+
         $(function() {
             game.init();
         })

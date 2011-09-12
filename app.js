@@ -3,21 +3,34 @@ var express = require('express');
 var io = require('socket.io');
 var app = module.exports = express.createServer();
 
+var fs = require('fs');
+fs.readFile('public/assets/maps/main.js', function(err,data){
+    if(err) {
+        console.error("Could not open file: %s", err);
+        process.exit(1);
+    }
+    var mapData = data.toString('ascii').replace('game.assets.registerMap(map);','')
+    global.map = eval(mapData)
+});
+
+global.TYPE_PLAYER = 1;
+
 // globals
 global.config = require('./server/config').config;
-global.server = require('./server/server').server;
 global.player = require('./server/player').player;
 global.packets = require('./server/packets').packets;
 global.assets = require('./server/assets').assets;
 global.levels = require('./server/levels').levels;
 global.npcs = require('./server/npcs').npcs;
+global.general = require('./server/general').general;
+global.mainloop = require('./server/mainloop').mainloop;
 global.sha1 = require('./server/lib/sha1/sha1');
 global.mysqlClient = require('mysql').Client;
-global.mysql = new mysqlClient(); 
-    mysql.host = config.db.host; 
-    mysql.user = config.db.user; 
-    mysql.password = config.db.password; 
-    mysql.connect(); 
+global.mysql = new mysqlClient();
+    mysql.host = config.db.host;
+    mysql.user = config.db.user;
+    mysql.password = config.db.password;
+    mysql.connect();
     mysql.query('USE ' + config.db.database);
 
 global.SAVE_INTERVAL = 60000;
@@ -42,12 +55,12 @@ app.get('/', function(req, res){
 });
 
 app.post('/logon',function(req,res) {
-    // db call
     if(req.body.username > '' && req.body.password > '') {
         player.authenticate(
             req.body.username,
             req.body.password,
             function(userID) { // success
+                console.log(userID)
                 res.render('client', {
                     authtoken:player.createToken(userID), // return the user's hash/session/token/whatever we identify them with
                     title:'Client',
@@ -80,13 +93,40 @@ app.get('/client',function(req,res) {
 
 
 /////////////////////////////////////////////////////////////
+
+server = {
+    players:{},
+    connections:{},
+    maptiles:{},
+    fixtures:{},
+    world_fixtures:{},
+    items:{},
+    world_items:{},
+    inventory_items:{},
+    npcs:{},
+    world_npcs:{},
+    bank_items:{},
+    encounters:{},
+    world_shops:{},
+    assets_ready:function() {
+        console.log('ready!')
+    }
+}
+
 console.log('loading assets');
 assets.fetch();
 app.listen(3000);
-var sio = io.listen(app);
+global.sio = io.listen(app);
+sio.set('log level',1)
+//global.mainloop = require('./server/mainloop').mainloop;
+
 sio.sockets.on('connection', function (client) {
     packets.handle(client);
     client.on('disconnect',function(){
        //console.log('dropped')
     });
 });
+
+setInterval(function() {
+    mainloop()
+},200)
