@@ -31,4 +31,19 @@ $(function() {
   $(document).bind("contextmenu", function (e) {
     //return false;
   });
+
+  // touch input
+  document.addEventListener("touchstart",function(e) {
+      input.touch = true;
+      input.touchX = e.changedTouches[0].screenX;
+      input.touchY = e.changedTouches[0].screenY;
+      e.preventDefault();
+  });
+  document.addEventListener("touchmove",function(e) {
+      input.touchX = e.changedTouches[0].screenX;
+      input.touchY = e.changedTouches[0].screenY;
+  });
+  document.addEventListener("touchend",function(e) {
+      input.touch = false;
+  });
 });

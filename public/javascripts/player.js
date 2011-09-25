@@ -30,6 +30,14 @@ game.player = {
         if(input.keyboard[65]) { if(game.tileWalkable(game.players[game.me].x-1,game.players[game.me].y)) { requestX = game.players[game.me].x-1; moved = "left"; wasd = true;} };
         if(input.keyboard[68]) { if(game.tileWalkable(game.players[game.me].x+1,game.players[game.me].y)) { requestX = game.players[game.me].x+1; moved = "right"; wasd = true;} };
 
+        // touch inputs
+        if(input.touch) {
+            if(input.touchX<game.camera.w*game.sprites.w/3) {                         moved = true; requestX = game.players[game.me].x-1; }
+            if(input.touchX>game.camera.w*game.sprites.w/3 + camera.w*sprites.w/3) {  moved = true; requestX = game.players[game.me].x+1; }
+            if(input.touchY<game.camera.h*game.sprites.h/3) {                         moved = true; requestY = game.players[game.me].y-1; }
+            if(input.touchY>game.camera.h*game.sprites.h/3 + camera.h*sprites.h/3) {  moved = true; requestY = game.players[game.me].y+1; }
+        }
+
         if(moved) {
             //game.bank.close();
             //game.shop.close();

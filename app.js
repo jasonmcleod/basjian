@@ -129,4 +129,17 @@ sio.sockets.on('connection', function (client) {
 
 setInterval(function() {
     mainloop()
-},200)
+},200);
+
+//usecode middlware
+
+callUseCode = function(player,func) {
+    client = connections[player].client
+    eval(func);
+}
+
+setFixture = function(id,fixture) {
+    server.world_fixtures[id].fixture = fixture;
+    console.log('fixture is ' + id)
+    sio.sockets.emit('setFixture',{id:id,fixture:fixture});
+}

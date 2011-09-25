@@ -111,6 +111,8 @@ game.render = {
     },
     items:function() {
         var drawnTotal = 0;
+        if(!game.players[game.me]) return;
+
         for(gameitem in game.world_items) {
             if(game.world_items[gameitem]) {
                 var x = ((game.world_items[gameitem].x-game.camera.x))//+$(elements.viewport).position().left-viewportOffsetX;

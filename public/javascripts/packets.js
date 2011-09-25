@@ -17,6 +17,11 @@ game.handle_packets = function() {
         game.assets.register(data)
     })
 
+    game.socket.on('setFixture',function(data) {
+        console.log(data)
+        game.world_fixtures[parseInt(data.id)].fixture = parseInt(data.fixture);
+
+    })
 
     game.socket.on('data',function(data) {
         if('put' in data) {
