@@ -82,19 +82,15 @@ game.render = {
                     if($("#npc_" + game.world_npcs[npc].id).length<1) {
                         $(game.dom.npcs).append("<div id='npc_" + game.world_npcs[npc].id + "' class='sprite npc " + game.npcs[game.world_npcs[npc].npc].animationType + " " + (game.npcs[game.world_npcs[npc].npc].hostile==1?"hostile":"friendly") + "' style='width:" + ((game.npcs[game.world_npcs[npc].npc].width*game.sprites.w)) + "px; height:" + (game.npcs[game.world_npcs[npc].npc].height*game.sprites.h) + "px; background-image:url(" + game.paths.npcs + game.npcs[game.world_npcs[npc].npc].sprite + ");'></div>");
                         if(game.npcs[game.world_npcs[npc].npc].height>1) {
+
                             $("#npc_" + game.world_npcs[npc].id).css({marginLeft:-game.sprites.w/2,marginTop:-game.sprites.h/2})
                         }
                         $("#npc_" + game.world_npcs[npc].id).data("frame",Math.round(Math.random()*3));
                     }
-
                     if($("#npc_" + game.world_npcs[npc].id).is(".targeted")) {
                         render.target();
                     }
                     $("#npc_" + game.world_npcs[npc].id).css({left:x,top:y});
-
-                    //elements.ctx.drawImage(game.npcs[game.world_npcs[npc].npc].img,0,0,sprites.w,sprites.h,x*sprites.w,y*sprites.h,sprites.w,sprites.h);
-
-
                 } else {
                     if($("#npc_" + game.world_npcs[npc].id).length>0) {
                         $("#npc_" + game.world_npcs[npc].id).remove();
@@ -123,11 +119,8 @@ game.render = {
                             $(game.dom.items).append("<div id='gameitem_" + gameitem + "' class='sprite " + (game.items[game.world_items[gameitem].item].illuminates>0?"liminant":"not-luminant") + " item item-" + game.world_items[gameitem].item + "' rel='"+x+"_"+y+"' style='background-image:url(" + game.paths.items + game.items[game.world_items[gameitem].item].sprite + ")'>&nbsp;</div>");
                         }
                         $("#gameitem_" + gameitem + ":not('.ui-draggable-dragging')").css({left:x*game.sprites.w,top:y*game.sprites.h}).attr("rel",x+"_"+y);
-                        console.log('drew item on dom')
                     } else {
-                        //            elements.ctx.drawImage(game.gameitems[game.world_items[gameitem].item].img,x*sprites.w,y*sprites.h,sprites.w,sprites.h);
                         game.dom.ctx.drawImage(game.items[game.world_items[gameitem].item].img,0,0,game.sprites.w,game.sprites.h,x*game.sprites.w,y*game.sprites.h,game.sprites.w,game.sprites.h);
-                        //console.log('drew item on canvas')
                         $("#gameitem_" + gameitem).remove();
                     }
                 } else {

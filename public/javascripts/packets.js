@@ -35,7 +35,11 @@ game.handle_packets = function() {
             }
         }
         if('players' in data) {
-            game.players = data.players
+            game.players = data.players;
+        }
+
+        if('world_npcs' in data) {
+            game.world_npcs = data.world_npcs;
         }
     })
 }

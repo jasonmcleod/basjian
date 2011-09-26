@@ -2,6 +2,49 @@ var player = {
     hp:function(id) {
         return 100 // faked
     },
+    armor:function(p) {
+        var armor = 0;
+        armor+=player.shield(p)>0 ? server.items[player.shield(p)].protection : 0;
+        armor+=player.chest(p)>0 ? server.items[player.chest(p)].protection : 0;
+        armor+=player.helmet(p)>0 ? server.items[player.helmet(p)].protection : 0;
+        return armor;
+    },
+    weapon:function(p) {
+        if(typeof server.players[p] != "undefined") {
+            for(var i in server.players[p].inventory) {
+                if(server.players[p].inventory[i].equipped==2) { return server.players[p].inventory[i].item; }
+            }
+        }
+        return 9 // bare hands!
+    },
+
+    shield:function(p) {
+        if(typeof server.players[p] != "undefined") {
+            for(var i in server.players[p].inventory) {
+                if(server.players[p].inventory[i].equipped==3) { return server.players[p].inventory[i].item; }
+            }
+        }
+    },
+
+    chest:function(p) {
+        if(typeof server.players[p] != "undefined") {
+            for(var i in server.players[p].inventory) {
+                if(server.players[p].inventory[i].equipped==4) { return server.players[p].inventory[i].item; }
+            }
+        }
+    },
+
+    helmet:function(p) {
+        if(typeof server.players[p] != "undefined") {
+            for(var i in server.players[p].inventory) {
+                if(server.players[p].inventory[i].equipped==5) { return server.players[p].inventory[i].item; }
+            }
+        }
+    },
+    blockPercent:function(p) {
+        var armor = player.armor(p);
+        return armor / (armor + 100);
+    },
     findBySession:function(session) {
         for(var player in server.players) {
             if(server.players[player].sessionId==session) {
@@ -11,6 +54,8 @@ var player = {
         return false;
     },
     requestMove:function(p,x,y) {
+
+        if(!server.players[p]) return false;
 
         var pos = {x:0, y:0}
 
@@ -148,7 +193,7 @@ var player = {
                                     }
                                 }
                             });
-                            console.log(youare)
+                            //console.log(youare)
                             client.emit('initialPlayerData',youare);
                         });
 

@@ -22,8 +22,10 @@ global.packets = require('./server/packets').packets;
 global.assets = require('./server/assets').assets;
 global.levels = require('./server/levels').levels;
 global.npcs = require('./server/npcs').npcs;
+global.encounters = require('./server/encounters').encounters;
 global.general = require('./server/general').general;
 global.mainloop = require('./server/mainloop').mainloop;
+
 global.sha1 = require('./server/lib/sha1/sha1');
 global.mysqlClient = require('mysql').Client;
 global.mysql = new mysqlClient();
@@ -95,6 +97,10 @@ app.get('/client',function(req,res) {
 /////////////////////////////////////////////////////////////
 
 server = {
+    VIEW_DISTANCE:22,
+    TYPE_NPC:1,
+    TYPE_PLAYER:2,
+
     players:{},
     connections:{},
     maptiles:{},
@@ -109,6 +115,8 @@ server = {
     encounters:{},
     world_shops:{},
     assets_ready:function() {
+        // start of game
+        //encounters.spawnAll();
         console.log('ready!')
     }
 }
@@ -126,6 +134,8 @@ sio.sockets.on('connection', function (client) {
        //console.log('dropped')
     });
 });
+
+
 
 setInterval(function() {
     mainloop()
