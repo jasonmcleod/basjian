@@ -124,9 +124,9 @@ server = {
 console.log('loading assets');
 assets.fetch();
 app.listen(3000);
-global.sio = io.listen(app);
+global.sio = io.listen(3001);
 sio.set('log level',1)
-//global.mainloop = require('./server/mainloop').mainloop;
+global.mainloop = require('./server/mainloop').mainloop;
 
 sio.sockets.on('connection', function (client) {
     packets.handle(client);

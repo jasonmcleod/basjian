@@ -92,7 +92,7 @@ var player = {
     },
     authenticate:function(username,password,success,failure) {
         mysql.query('USE ' + config.db.database + ';');
-        mysql.query('SELECT * FROM accounts WHERE name = "' + username + '" AND password = "' + sha1.hex(password) + '"', function selectCb(err, results, fields) { if (err) { throw err; }
+        mysql.query('SELECT * FROM account WHERE name = "' + username + '" AND password = "' + sha1.hex(password) + '"', function selectCb(err, results, fields) { if (err) { throw err; }
             if(results.length==1) {
                 //mysql.query('USE ' + config.db.database + ';');
                 //mysql.query('SELECT * FROM characters WHERE id = ' + results[0].character, function selectCb(err, results, fields) { if (err) { throw err; }
@@ -112,7 +112,7 @@ var player = {
          var token = Math.random()*10000;
          console.log('new token: ' + token + ' for user ' + userID)
          mysql.query('USE ' + config.db.database + ';');
-         mysql.query('UPDATE accounts SET token = "' + token + '" WHERE id = ' + userID, function selectCb(err, results, fields) { if (err) { throw err; }
+         mysql.query('UPDATE account SET token = "' + token + '" WHERE id = ' + userID, function selectCb(err, results, fields) { if (err) { throw err; }
             console.log("token set " + token)
          });
          return token;
@@ -120,9 +120,9 @@ var player = {
     register:function(token,client) {
          //query for a token
          console.log('register ' + token)
-         mysql.query('SELECT * FROM accounts WHERE token = "' + token + '"', function selectCb(err, results, fields) { if (err) { throw err; }
+         mysql.query('SELECT * FROM account WHERE token = "' + token + '"', function selectCb(err, results, fields) { if (err) { throw err; }
             if(results.length==1) {
-                mysql.query('SELECT * FROM characters WHERE id = ' + results[0].character, function selectCb(err, results, fields) { if (err) { throw err; }
+                mysql.query('SELECT * FROM character WHERE id = ' + results[0].character, function selectCb(err, results, fields) { if (err) { throw err; }
                     console.log('\n\n\n\n\n\n\n\n')
                     console.warn(results[0]);
                     console.log('\n\n\n\n\n\n\n\n')
@@ -175,7 +175,7 @@ var player = {
 
                         var youare = server.players[record.id];
                         mysql.query("USE basjian;");
-                        mysql.query("SELECT * FROM inventory_items WHERE `character` = " + record.id, function selectCb(err, results, fields) {  if (err) { throw err; }
+                        mysql.query("SELECT * FROM iteminstance WHERE `owner` = " + record.id, function selectCb(err, results, fields) {  if (err) { throw err; }
                             server.players[record.id].inventory = {};
                             for(var r=0;r<results.length;r++) {
                                 server.players[record.id].inventory[results[r].id] =  {}
@@ -183,16 +183,16 @@ var player = {
                                     server.players[record.id].inventory[results[r].id][field] = results[r][field]
                                 }
                             }
-                            mysql.query("USE basjian;");
-                            mysql.query("SELECT * FROM bank_items WHERE `character` = " + record.id, function selectCb(err, results, fields) {  if (err) { throw err; }
-                                server.players[record.id].bank = {};
-                                for(var r=0;r<results.length;r++) {
-                                    server.players[results[0].character].bank[results[r].id] = {}
-                                    for(var field in results[r]) {
-                                        server.players[results[0].character].bank[results[r].id][field] = results[r][field]
-                                    }
-                                }
-                            });
+                            // mysql.query("USE basjian;");
+                            // mysql.query("SELECT * FROM bank_items WHERE `character` = " + record.id, function selectCb(err, results, fields) {  if (err) { throw err; }
+                            //     server.players[record.id].bank = {};
+                            //     for(var r=0;r<results.length;r++) {
+                            //         server.players[results[0].character].bank[results[r].id] = {}
+                            //         for(var field in results[r]) {
+                            //             server.players[results[0].character].bank[results[r].id][field] = results[r][field]
+                            //         }
+                            //     }
+                            // });
                             //console.log(youare)
                             client.emit('initialPlayerData',youare);
                         });

@@ -140,6 +140,7 @@ var game = {
             top:((game.sprites.h/2) * game.camera.h) - game.sprites.h/2
         })
 
+        game.socket = io.connect("http://localhost:3001");
         game.socket = io.connect("http://" + window.location.hostname);
         game.socket.emit('register',game.authtoken)
         game.socket.on('connect',function() {

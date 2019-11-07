@@ -1,3 +1,7 @@
+Notes from 2019 when i tried to fix this and run it..
+I needed node 0.8.0
+The package.json file is missing dependencies, but i included the node_modules folder in the repo
+
 Basjian is a multiplayer game written in node.js. The client is... you guessed it, all javascript.
 
 I wrote Basjian because all the retro RPG's I've played over the years have either gone away or

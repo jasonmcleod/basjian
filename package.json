@@ -1,9 +1,11 @@
 {
-    "name": "application-name"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.3.12"
-    , "jade": ">= 0.0.1"
-  }
+    "name": "application-name",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "express": "2.3.12",
+        "jade": ">= 0.0.1",
+        "socket.io": "^0.8.4",
+        "socket.io-client": "^0.8.4"
+    }
 }
